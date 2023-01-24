@@ -1,9 +1,8 @@
 class Game
-  # Initialize user_turn, winner, loser and game input
+  # Initialize user_turn, winner and player_input
   def initialize
     @user_turn = 1
     @winner = nil
-    @loser = nil
     @player_input = ""
   end
   # start_game contains the game loop
