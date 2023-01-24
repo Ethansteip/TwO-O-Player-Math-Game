@@ -1,4 +1,11 @@
 class Game
+  # Initialize user_turn, winner, loser and game input
+  def initialize
+    @user_turn = 1
+    @winner = nil
+    @loser = nil
+    @player_input = ""
+  end
   # start_game contains the game loop
   def start_game
     
@@ -7,7 +14,7 @@ class Game
     player_2 = Player.new
 
     # Welcome players to game
-    puts "Welcome to the Ruby Math Challenge!"
+    puts "---Welcome to the Ruby Math Challenge!---"
     # Game loop
     while (@winner == nil) do
       question = Question.new
@@ -18,15 +25,8 @@ class Game
       puts "Player #{@user_turn}: whats #{num_1} + #{num_2}?"
       player_input = gets.to_i
 
-      # Check answer and display appropriate message
-      if player_input == answer
-        puts "Player #{@user_turn}: Well done, you got the correct answer!"
-      else
-        puts "Player #{@user_turn}: Sorry, that was incorrect"
-        # Decrement player's score
-        @user_turn == 1 ? player_1.lose_point : player_2.lose_point
-      end
-
+      # Check answer and display appropriate message, decrement player point if needed.
+      self.check_answer(player_1, player_2, player_input, answer)
       # Print current scores to terminal
       puts "P1: #{player_1.points}/3 vs P2: #{player_2.points}/3"
       # switch turns
@@ -38,25 +38,25 @@ class Game
     end
   end
 
-  # Initialize user_turn, winner, loser and game input
-  def initialize
-    @user_turn = 1
-    @winner = nil
-    @loser = nil
-    @player_input = ""
-  end
-
-  # Output score at the end of each round
-  def output_score
-    #get score state from players class
+  # Checks the answer to a question
+  def check_answer(p1, p2, input, answer)
+    if input == answer
+      puts "Player #{@user_turn}: Well done, you got the correct answer!"
+    else
+      puts "Player #{@user_turn}: Sorry, that was incorrect"
+      # Decrement player's score
+      @user_turn == 1 ? p1.lose_point : p2.lose_point
+    end
   end
 
   #check to see if there is a winner after each round
   def check_winner(player_1, player_2)
     if player_1.points == 0
+      puts "---GAME OVER---"
       puts "Player 2 wins with a score of #{player_2.points}/3!"
       return true
     elsif player_2.points == 0
+      puts "---GAME OVER---"
       puts "Player 1 wins with a score of #{player_1.points}/3!"
       return true
     else
